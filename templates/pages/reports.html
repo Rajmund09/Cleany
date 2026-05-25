@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/reports.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+    {% include 'components/sidebar.html' %}
+    
+    <main class="main-content">
+        <header class="page-header fade-in">
+            <div>
+                <h1 class="page-title">Generated Reports</h1>
+                <p class="page-subtitle">Download your cleaned datasets and AI summary reports.</p>
+            </div>
+        </header>
+        
+        <div class="card fade-in delay-1" id="reportsCard">
+            <h2 class="card-title">Available Downloads</h2>
+            <div class="reports-list">
+                <div class="report-item">
+                    <div class="report-info">
+                        <div class="report-name">Cleaned Dataset (CSV)</div>
+                        <div class="report-meta">Standard raw data format, ready for ML/DB import.</div>
+                    </div>
+                    <div class="report-actions">
+                        <button class="btn btn-outline" onclick="downloadReport('csv')">Download</button>
+                    </div>
+                </div>
+                
+                <div class="report-item">
+                    <div class="report-info">
+                        <div class="report-name">Cleaned Dataset (Excel)</div>
+                        <div class="report-meta">Formatted spreadsheet format.</div>
+                    </div>
+                    <div class="report-actions">
+                        <button class="btn btn-outline" onclick="downloadReport('excel')">Download</button>
+                    </div>
+                </div>
+
+                <div class="report-item">
+                    <div class="report-info">
+                        <div class="report-name">AI Data Quality Report (PDF)</div>
+                        <div class="report-meta">Comprehensive summary, stats, and cleaning logs.</div>
+                    </div>
+                    <div class="report-actions">
+                        <button class="btn btn-primary" onclick="downloadReport('pdf')">Download PDF</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    function downloadReport(format) {
+        const datasetId = localStorage.getItem('current_dataset_id');
+        if (!datasetId) {
+            alert('No dataset currently active. Please upload a dataset first.');
+            return;
+        }
+        window.location.href = `/api/export/${datasetId}/${format}`;
+    }
+</script>
+{% endblock %}

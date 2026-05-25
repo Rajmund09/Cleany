@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/upload.css') }}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/upload.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+    {% include 'components/sidebar.html' %}
+    
+    <main class="main-content">
+        <header class="page-header fade-in">
+            <div>
+                <h1 class="page-title">Upload Dataset</h1>
+                <p class="page-subtitle">Import your raw CSV or Excel data to begin.</p>
+            </div>
+        </header>
+        
+        <div class="card fade-in delay-1">
+            <div id="uploadContainer" class="upload-container">
+                <svg class="upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto 1rem auto;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                <div id="uploadLoading" class="loading-spinner"></div>
+                <div id="uploadText" class="upload-text">Drag & Drop your dataset here</div>
+                <div id="uploadSubtext" class="upload-subtext">or click to browse from your computer (CSV, XLSX)</div>
+                <input type="file" id="fileInput" class="file-input" accept=".csv, .xlsx, .xls">
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}

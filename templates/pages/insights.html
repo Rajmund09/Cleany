@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/reports.css') }}">
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const datasetId = localStorage.getItem('current_dataset_id');
+    if(!datasetId) return;
+    
+    fetch(`/api/analytics/summary/${datasetId}?use_cleaned=true`)
+        .then(res => res.json())
+        .then(data => {
+            if(data.error) return;
+            renderInsights(data.insights);
+        });
+        
+    function renderInsights(insights) {
+        const container = document.getElementById('insightsContainer');
+        container.innerHTML = '';
+        
+        insights.forEach(insight => {
+            const card = document.createElement('div');
+            card.className = `card insight-card ${insight.type} slide-up`;
+            card.innerHTML = `
+                <h3 style="margin-bottom: 0.5rem; color: var(--color-text);">${insight.title}</h3>
+                <p style="color: #666; font-size: 0.95rem;">${insight.message}</p>
+            `;
+            container.appendChild(card);
+        });
+    }
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+    {% include 'components/sidebar.html' %}
+    
+    <main class="main-content">
+        <header class="page-header fade-in">
+            <div>
+                <h1 class="page-title">AI Insights</h1>
+                <p class="page-subtitle">Automated intelligent observations about your data.</p>
+            </div>
+        </header>
+        
+        <div id="insightsContainer" style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <div class="loading-spinner" style="display:block;"></div>
+        </div>
+    </main>
+</div>
+{% endblock %}

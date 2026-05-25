@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+    <h1 style="font-size: 5rem; color: var(--color-rough-sky-blue);">{{ error_code }}</h1>
+    <h2>{{ error }}</h2>
+    <a href="/" class="btn btn-outline" style="margin-top: 2rem;">Return Home</a>
+</div>
+{% endblock %}

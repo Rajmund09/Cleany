@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const datasetId = localStorage.getItem('current_dataset_id');
+    if(!datasetId) return;
+    
+    fetch(`/api/analytics/summary/${datasetId}?use_cleaned=true`)
+        .then(res => res.json())
+        .then(data => {
+            if(data.error) return;
+            
+            // Build correlation heatmap if we have data
+            if(data.correlations && data.correlations.data.length > 0) {
+                renderCorrelationHeatmap(data.correlations);
+            } else {
+                document.getElementById('correlationContainer').innerHTML = "<p>No numeric data available for correlation.</p>";
+            }
+        });
+        
+    function renderCorrelationHeatmap(corrData) {
+        const container = document.getElementById('correlationContainer');
+        const labels = corrData.labels;
+        const size = labels.length;
+        
+        let html = '<div style="display: grid; grid-template-columns: 100px repeat(' + size + ', 1fr); gap: 2px;">';
+        
+        // Header row
+        html += '<div></div>';
+        labels.forEach(l => {
+            html += `<div style="font-size:10px; font-weight:bold; writing-mode: vertical-rl; transform: rotate(180deg); padding: 5px;">${l}</div>`;
+        });
+        
+        // Data rows
+        labels.forEach((rowLabel, i) => {
+            html += `<div style="font-size:12px; font-weight:bold; display:flex; align-items:center; justify-content:flex-end; padding-right:10px;">${rowLabel}</div>`;
+            labels.forEach((colLabel, j) => {
+                const valObj = corrData.data.find(d => d.y === rowLabel && d.x === colLabel);
+                const val = valObj ? valObj.v : 0;
+                
+                let bg = '';
+                if(val > 0) {
+                    bg = `rgba(143, 183, 201, ${val})`; // Blue
+                } else {
+                    bg = `rgba(224, 159, 62, ${Math.abs(val)})`; // Orange
+                }
+                
+                html += `<div title="${rowLabel} vs ${colLabel}: ${val}" style="background: ${bg}; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 10px; border-radius: 4px;">${val.toFixed(2)}</div>`;
+            });
+        });
+        
+        html += '</div>';
+        container.innerHTML = html;
+    }
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+    {% include 'components/sidebar.html' %}
+    
+    <main class="main-content">
+        <header class="page-header fade-in">
+            <div>
+                <h1 class="page-title">Visual Analytics</h1>
+                <p class="page-subtitle">Understand numeric distributions and correlations.</p>
+            </div>
+        </header>
+        
+        <div class="card fade-in delay-1">
+            <h2 class="card-title">Correlation Matrix</h2>
+            <div id="correlationContainer" style="overflow-x: auto;">
+                <div class="loading-spinner" style="display:block;"></div>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}
