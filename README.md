@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>✨ CleanFlow AI</h1>
+  <h1>✨ Cleany</h1>
   <p><b>An elegant, highly automated Data Cleaning & Reporting platform built with Flask and Pandas.</b></p>
 
   [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
