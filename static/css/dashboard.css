@@ -1,0 +1,173 @@
+@import url('variables.css');
+
+.dashboard-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 260px;
+    background-color: var(--color-bg);
+    border-right: var(--border-thin);
+    padding: 2.5rem 1.5rem;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+}
+
+.brand {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--color-text);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 3rem;
+}
+
+.brand-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-accent);
+}
+
+.nav-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    color: #666;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    transition: var(--transition-smooth);
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    font-family: var(--font-sans);
+    letter-spacing: 0.02em;
+}
+
+.nav-item svg {
+    opacity: 0.7;
+}
+
+.nav-item:hover, .nav-item.active {
+    background-color: rgba(0,0,0,0.03);
+    color: var(--color-text);
+    font-weight: 500;
+}
+
+.nav-item.active svg {
+    opacity: 1;
+    color: var(--color-accent);
+}
+
+.main-content {
+    flex: 1;
+    padding: 3rem 4rem;
+    background-color: var(--color-bg);
+    max-width: 1200px;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3rem;
+    padding-bottom: 1rem;
+    border-bottom: var(--border-thick);
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.card {
+    background-color: var(--color-surface);
+    border: var(--border-thin);
+    border-radius: var(--radius-sm);
+    padding: 2rem;
+    box-shadow: var(--shadow-soft);
+    margin-bottom: 2rem;
+    position: relative;
+    transition: var(--transition-smooth);
+}
+
+.card:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.metric-card {
+    border-top: 3px solid var(--color-text);
+    padding: 1.5rem;
+}
+
+.metric-card h3 {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #666;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.metric-value {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    font-weight: 400;
+    color: var(--color-text);
+}
+
+/* Labor Illusion Modal */
+.labor-modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background-color: rgba(253, 251, 247, 0.95);
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.labor-content {
+    max-width: 500px;
+}
+
+.labor-spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid var(--color-border);
+    border-top: 3px solid var(--color-text);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 2rem auto;
+}
+
+.labor-title {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+}
+
+.labor-desc {
+    font-family: var(--font-sans);
+    color: #666;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
