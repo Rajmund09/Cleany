@@ -1,0 +1,30 @@
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Database
+database/database.db
+*.sqlite3
+*.db
+
+# Uploads & Reports (Prevent Data Leaks!)
+uploads/
+reports/
+datasets/
+
+# IDEs & OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
